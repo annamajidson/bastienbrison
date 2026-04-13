@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bastien Brison — Pianiste Jazz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #090909;
+            --text: #f0ebe3;
+            --muted: #5e5e5e;
+            --accent: #b8975a;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ────────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 52px;
+        }
+
+        .nav-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.18em;
+            color: var(--text);
+            text-decoration: none;
+            opacity: 0.9;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover { opacity: 1; }
+
+        /* Language switcher */
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text);
+            opacity: 0.38;
+            padding: 4px 7px;
+            transition: opacity 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .lang-btn:hover { opacity: 0.75; }
+
+        .lang-btn.active {
+            opacity: 1;
+            border-bottom-color: var(--accent);
+        }
+
+        .lang-sep {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.55rem;
+            color: var(--muted);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        /* ── HERO ───────────────────────────────────────────── */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 640px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('hero.jpg') center / cover no-repeat;
+            transform: scale(1.06);
+            transition: transform 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .hero-bg.loaded { transform: scale(1); }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                160deg,
+                rgba(9, 9, 9, 0.2)  0%,
+                rgba(9, 9, 9, 0.04) 35%,
+                rgba(9, 9, 9, 0.58) 70%,
+                rgba(9, 9, 9, 0.97) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 52px 68px;
+            width: 100%;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+            opacity: 0;
+            animation: fadeUp 1s 0.4s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(72px, 11vw, 148px);
+            line-height: 0.88;
+            letter-spacing: 0.025em;
+            color: var(--text);
+            opacity: 0;
+            animation: fadeUp 1s 0.6s forwards;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 36px;
+            right: 52px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            opacity: 0;
+            animation: fadeIn 1s 1.4s forwards;
+        }
+
+        .hero-scroll::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 44px;
+            background: var(--muted);
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.25; }
+            50%       { opacity: 0.8;  }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* ── ABOUT ──────────────────────────────────────────── */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 88vh;
+        }
+
+        .about-image {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: left top;
+            display: block;
+            transition: transform 0.9s ease;
+        }
+
+        .about-image:hover img { transform: scale(1.04); }
+
+        .about-text {
+            padding: 96px 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 28px;
+        }
+
+        .about-heading {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(38px, 4.5vw, 62px);
+            line-height: 0.95;
+            letter-spacing: 0.025em;
+            margin-bottom: 40px;
+        }
+
+        .about-bio p {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: rgba(240, 235, 228, 0.72);
+            margin-bottom: 22px;
+            font-weight: 300;
+        }
+
+        .about-bio p em {
+            font-style: italic;
+            color: rgba(240, 235, 228, 0.88);
+        }
+
+        .about-bio p:last-child { margin-bottom: 0; }
+
+        /* ── QUOTE ──────────────────────────────────────────── */
+        .quote-section {
+            padding: 100px 12vw;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .quote-deco {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 6rem;
+            line-height: 0.4;
+            color: var(--accent);
+            opacity: 0.35;
+            margin-bottom: 28px;
+            display: block;
+        }
+
+        .quote-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.65;
+            color: rgba(240, 235, 228, 0.82);
+            max-width: 860px;
+            margin: 0 auto 28px;
+        }
+
+        .quote-attr {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        /* ── FEATURE IMAGE (parallax divider) ───────────────── */
+        .feature {
+            position: relative;
+            height: 70vh;
+            overflow: hidden;
+        }
+
+        .feature-bg {
+            position: absolute;
+            inset: -15%;
+            background: url('EXPOFONTAINEBLEAUFINAL_001__DSC2896.jpg') center / cover no-repeat;
+            will-change: transform;
+        }
+
+        .feature-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(9, 9, 9, 0.32);
+        }
+
+        /* ── GALLERY ────────────────────────────────────────── */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+            background: #111;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.88);
+            transition: transform 0.7s ease, filter 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+            filter: brightness(1);
+        }
+
+        /* ── CONTACT ────────────────────────────────────────── */
+        .contact {
+            padding: 136px 52px;
+            text-align: center;
+        }
+
+        .contact-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .contact-heading {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 7vw, 100px);
+            letter-spacing: 0.03em;
+            line-height: 1;
+            margin-bottom: 60px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 18px 56px;
+            border: 1px solid rgba(240, 235, 228, 0.35);
+            color: var(--text);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: background 0.3s, border-color 0.3s, color 0.3s;
+            min-width: 300px;
+        }
+
+        .contact-btn:hover {
+            background: var(--text);
+            border-color: var(--text);
+            color: var(--bg);
+        }
+
+        /* ── FOOTER ─────────────────────────────────────────── */
+        footer {
+            padding: 36px 52px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        footer p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+        }
+
+        .footer-credits {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.62rem;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            opacity: 0.7;
+            text-align: right;
+        }
+
+        /* ── SCROLL ANIMATIONS ──────────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .reveal.delay-1 { transition-delay: 0.15s; }
+        .reveal.delay-2 { transition-delay: 0.30s; }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ─────────────────────────────────────── */
+        @media (max-width: 900px) {
+            nav { padding: 24px 28px; }
+
+            .hero-content  { padding: 0 28px 52px; }
+            .hero-scroll   { display: none; }
+
+            .about         { grid-template-columns: 1fr; }
+            .about-image   { min-height: 56vw; }
+            .about-text    { padding: 56px 28px; }
+
+            .quote-section { padding: 72px 28px; }
+
+            .contact       { padding: 96px 28px; }
+            .contact-btn   { min-width: unset; width: 100%; max-width: 360px; }
+
+            footer {
+                padding: 28px;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .footer-credits { text-align: center; }
+        }
+
+        @media (max-width: 540px) {
+            .nav-links    { display: none; }
+            .gallery      { grid-template-columns: 1fr; }
+            .gallery-item { aspect-ratio: 4 / 3; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-name">BASTIEN BRISON</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#about"   data-i18n="nav_about">À propos</a>
+                <a href="#contact" data-i18n="nav_contact">Contact</a>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')">FR</button>
+                <span class="lang-sep">|</span>
+                <button class="lang-btn"         id="btn-en" onclick="setLang('en')">EN</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow" data-i18n="hero_eyebrow">Pianiste Jazz · Paris</p>
+            <h1 class="hero-title">BASTIEN<br>BRISON</h1>
+        </div>
+        <div class="hero-scroll">Scroll</div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+        <div class="about-image reveal">
+            <img src="Bastien II (Credit photo -  Kate French).jpg" alt="Bastien Brison — photo Kate French">
+        </div>
+        <div class="about-text">
+            <p class="section-label reveal" data-i18n="about_label">À propos</p>
+            <h2 class="about-heading reveal delay-1" data-i18n-html="about_heading">LE JAZZ<br>COMME LANGAGE</h2>
+            <div class="about-bio reveal delay-2" id="bio-text"></div>
+        </div>
+    </section>
+
+    <!-- TSF JAZZ QUOTE -->
+    <div class="quote-section reveal">
+        <span class="quote-deco">"</span>
+        <p class="quote-text" id="quote-text"></p>
+        <p class="quote-attr">TSF Jazz</p>
+    </div>
+
+    <!-- FEATURE IMAGE (parallax divider) -->
+    <div class="feature">
+        <div class="feature-bg" id="featureBg"></div>
+        <div class="feature-overlay"></div>
+    </div>
+
+    <!-- GALLERY -->
+    <section class="gallery">
+        <div class="gallery-item reveal">
+            <img src="NJF24 - ©Zoé Casas (1).JPG" alt="">
+        </div>
+        <div class="gallery-item reveal delay-1">
+            <img src="NJF24 - ©Zoé Casas (2).jpg" alt="">
+        </div>
+        <div class="gallery-item reveal delay-1">
+            <img src="DSCF0185.jpg" alt="">
+        </div>
+        <div class="gallery-item reveal delay-2">
+            <img src="837C3E88-AD9E-4B89-97A4-9DA58ECD4C44.JPG" alt="">
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <p class="contact-label reveal" data-i18n="contact_label">Contact</p>
+        <h2 class="contact-heading reveal delay-1" data-i18n-html="contact_heading">TRAVAILLONS<br>ENSEMBLE</h2>
+        <div class="contact-links reveal delay-2">
+            <a href="mailto:bastienbrison@gmail.com" class="contact-btn">bastienbrison@gmail.com</a>
+            <a href="tel:+33677163350" class="contact-btn" data-i18n="contact_phone">06 77 16 33 50</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p data-i18n="footer_copy">© 2026 Bastien Brison</p>
+        <p class="footer-credits" data-i18n="photo_credits">Photos : Kate French · Zoé Casas</p>
+    </footer>
+
+    <script>
+        /* ─── i18n strings ───────────────────────────────────── */
+        const STRINGS = {
+            fr: {
+                nav_about:      'À propos',
+                nav_contact:    'Contact',
+                hero_eyebrow:   'Pianiste Jazz · Paris',
+                about_label:    'À propos',
+                about_heading:  'LE JAZZ<br>COMME LANGAGE',
+                bio: `
+                    <p>Né à Roanne en 1991, Bastien Brison intègre le Conservatoire de Chalon-sur-Saône où il découvre les premières émotions du trio jazz, une formation qui deviendra centrale dans son approche artistique. Son jeu reflète les influences de Bill Charlap, Kenny Barron, Mulgrew Miller, Hank Jones, Keith Jarrett, Ahmad Jamal, Aaron Goldberg, Aaron Parks…</p>
+                    <p>En 2015, il enregistre un premier album <em>DEBI</em> paru chez le prestigieux label Naïve avec le trio du batteur américain Sangoma Everett, puis un second avec le quartet <em>UPTAKE</em> (Lauréat Rézzo Jazz à Vienne, La Défense) paru chez Jazz Village / Harmonia Mundi. Lors de voyages initiatiques à New York, il travaille avec des musiciens de renommée internationale : Johnny O'Neal, Aaron Goldberg, Gerald Clayton, Eric Reed, Kevin Hays et Barry Harris.</p>
+                    <p>Basé à Paris depuis 2016, il partage la scène avec des instrumentistes de premier plan — Edouard Pennes, China Moses, Fanou Torracinta, Giacomo Smith, Ellen Birath, Felipe Cabrera — et se produit régulièrement sur TSF Jazz. Il accompagne par ailleurs des artistes internationaux tels que Veronica Swift, Samara Joy ou Stella Cole lors de leurs tournées en Europe.</p>
+                    <p>Parallèlement, Bastien s'engage au sein du label <em>Retro Jungle Records</em> dans des collaborations avec des beatmakers des scènes hip-hop et lo-fi — DLJ, Dosi, Ødyssee — participant à des projets qui décloisonnent les esthétiques et renouvellent les formats du jazz. En 2023, ils sortent ensemble l'album <em>EDAM</em>, qui connaît un grand succès sur les plateformes avec plusieurs millions de streams.</p>
+                `,
+                quote:          '« Bastien Brison est un touche-à-touche génial, un pianiste qui a su se rendre indispensable en même pas dix ans, une personnalité solaire et poétique qui n\'aime rien de plus que jouer, jouer, et encore jouer ! »',
+                contact_label:  'Contact',
+                contact_heading:'TRAVAILLONS<br>ENSEMBLE',
+                contact_phone:  '06 77 16 33 50',
+                footer_copy:    '© 2026 Bastien Brison',
+                photo_credits:  'Photos : Kate French · Zoé Casas',
+            },
+            en: {
+                nav_about:      'About',
+                nav_contact:    'Contact',
+                hero_eyebrow:   'Jazz Pianist · Paris',
+                about_label:    'About',
+                about_heading:  'JAZZ<br>AS LANGUAGE',
+                bio: `
+                    <p>Born in Roanne in 1991, Bastien Brison joined the Conservatory of Chalon-sur-Saône, where he discovered the early emotions of the jazz trio — a formation that would become central to his artistic approach. His playing reflects the influences of Bill Charlap, Kenny Barron, Mulgrew Miller, Hank Jones, Keith Jarrett, Ahmad Jamal, Aaron Goldberg, Aaron Parks…</p>
+                    <p>In 2015, he recorded a first album, <em>DEBI</em>, released on the prestigious Naïve label with the trio of American drummer Sangoma Everett, followed by a second album with the quartet <em>UPTAKE</em> (winner of Rézzo Jazz in Vienne, La Défense), released on Jazz Village / Harmonia Mundi. During formative trips to New York, he worked with internationally renowned musicians such as Johnny O'Neal, Aaron Goldberg, Gerald Clayton, Eric Reed, Kevin Hays, and Barry Harris.</p>
+                    <p>Based in Paris since 2016, he has shared the stage with leading instrumentalists — Edouard Pennes, China Moses, Fanou Torracinta, Giacomo Smith, Ellen Birath, Felipe Cabrera — and regularly performs on TSF Jazz radio. He has also accompanied international artists such as Veronica Swift, Samara Joy, and Stella Cole during their European tours.</p>
+                    <p>Alongside his stage work, Bastien collaborates within the label <em>Retro Jungle Records</em> with beatmakers from the hip-hop and lo-fi scenes — DLJ, Dosi, Ødyssee — contributing to projects that break down stylistic boundaries and renew traditional jazz formats. In 2023, they released <em>EDAM</em> together, which achieved great success on streaming platforms with several million plays.</p>
+                `,
+                quote:          '"Bastien Brison is a brilliantly versatile musician, a pianist who has made himself indispensable in less than ten years — a radiant and poetic personality who loves nothing more than to play, play, and play again!"',
+                contact_label:  'Contact',
+                contact_heading:'GET IN<br>TOUCH',
+                contact_phone:  '+33 6 77 16 33 50',
+                footer_copy:    '© 2026 Bastien Brison',
+                photo_credits:  'Photos: Kate French · Zoé Casas',
+            }
+        };
+
+        /* ─── language switcher ─────────────────────────────── */
+        let currentLang = 'fr';
+
+        function setLang(lang) {
+            currentLang = lang;
+            const s = STRINGS[lang];
+
+            document.documentElement.lang = lang;
+            document.title = lang === 'fr'
+                ? 'Bastien Brison — Pianiste Jazz'
+                : 'Bastien Brison — Jazz Pianist';
+
+            // Plain-text elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (s[key] !== undefined) el.textContent = s[key];
+            });
+
+            // HTML elements (those containing <br>, <em> …)
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (s[key] !== undefined) el.innerHTML = s[key];
+            });
+
+            // Bio paragraphs
+            document.getElementById('bio-text').innerHTML = s.bio;
+
+            // Quote
+            document.getElementById('quote-text').textContent = s.quote;
+
+            // Toggle active state on buttons
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        }
+
+        // Initialise
+        setLang('fr');
+
+        /* ─── hero zoom-in on load ──────────────────────────── */
+        window.addEventListener('load', () => {
+            document.getElementById('heroBg').classList.add('loaded');
+        });
+
+        /* ─── parallax on feature image ─────────────────────── */
+        const featureBg = document.getElementById('featureBg');
+        const feature   = featureBg.parentElement;
+
+        function onScroll() {
+            const rect   = feature.getBoundingClientRect();
+            const inView = rect.top < window.innerHeight && rect.bottom > 0;
+            if (!inView) return;
+            const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+            const shift    = (progress - 0.5) * 20;
+            featureBg.style.transform = `translateY(${shift}%)`;
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        /* ─── scroll-reveal ─────────────────────────────────── */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

@@ -316,26 +316,6 @@
             color: var(--accent);
         }
 
-        /* ── FEATURE IMAGE (parallax divider) ───────────────── */
-        .feature {
-            position: relative;
-            height: 70vh;
-            overflow: hidden;
-        }
-
-        .feature-bg {
-            position: absolute;
-            inset: -15%;
-            background: url('EXPOFONTAINEBLEAUFINAL_001__DSC2896.jpg') center / cover no-repeat;
-            will-change: transform;
-        }
-
-        .feature-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(9, 9, 9, 0.32);
-        }
-
         /* ── GALLERY ────────────────────────────────────────── */
         .gallery {
             display: grid;
@@ -438,6 +418,31 @@
             text-align: right;
         }
 
+        .footer-ig {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .footer-ig:hover { color: var(--text); }
+
+        .footer-ig svg {
+            width: 15px;
+            height: 15px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         /* ── SCROLL ANIMATIONS ──────────────────────────────── */
         .reveal {
             opacity: 0;
@@ -495,6 +500,7 @@
             <div class="nav-links">
                 <a href="#about"   data-i18n="nav_about">À propos</a>
                 <a href="#contact" data-i18n="nav_contact">Contact</a>
+                <a href="https://www.instagram.com/bbrison/" target="_blank" rel="noopener">Instagram</a>
             </div>
             <div class="lang-switch">
                 <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')">FR</button>
@@ -534,12 +540,6 @@
         <p class="quote-attr">TSF Jazz</p>
     </div>
 
-    <!-- FEATURE IMAGE (parallax divider) -->
-    <div class="feature">
-        <div class="feature-bg" id="featureBg"></div>
-        <div class="feature-overlay"></div>
-    </div>
-
     <!-- GALLERY -->
     <section class="gallery">
         <div class="gallery-item reveal">
@@ -569,7 +569,14 @@
     <!-- FOOTER -->
     <footer>
         <p data-i18n="footer_copy">© 2026 Bastien Brison</p>
-        <p class="footer-credits" data-i18n="photo_credits">Photos : Kate French · Zoé Casas</p>
+        <a href="https://www.instagram.com/bbrison/" target="_blank" rel="noopener" class="footer-ig">
+            <svg viewBox="0 0 24 24">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+            @bbrison
+        </a>
     </footer>
 
     <script>
@@ -657,21 +664,6 @@
         window.addEventListener('load', () => {
             document.getElementById('heroBg').classList.add('loaded');
         });
-
-        /* ─── parallax on feature image ─────────────────────── */
-        const featureBg = document.getElementById('featureBg');
-        const feature   = featureBg.parentElement;
-
-        function onScroll() {
-            const rect   = feature.getBoundingClientRect();
-            const inView = rect.top < window.innerHeight && rect.bottom > 0;
-            if (!inView) return;
-            const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-            const shift    = (progress - 0.5) * 20;
-            featureBg.style.transform = `translateY(${shift}%)`;
-        }
-
-        window.addEventListener('scroll', onScroll, { passive: true });
 
         /* ─── scroll-reveal ─────────────────────────────────── */
         const observer = new IntersectionObserver(entries => {

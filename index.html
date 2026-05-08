@@ -458,6 +458,26 @@
             transform: translateY(0);
         }
 
+        /* ── AGENDA ─────────────────────────────────────────── */
+        .agenda {
+            padding: 100px 52px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .agenda-heading {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(38px, 4.5vw, 62px);
+            line-height: 0.95;
+            letter-spacing: 0.025em;
+            margin-bottom: 48px;
+        }
+
+        .agenda-widget {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
         /* ── RESPONSIVE ─────────────────────────────────────── */
         @media (max-width: 900px) {
             nav { padding: 24px 28px; }
@@ -470,6 +490,8 @@
             .about-text    { padding: 56px 28px; }
 
             .quote-section { padding: 72px 28px; }
+
+            .agenda        { padding: 72px 28px; }
 
             .contact       { padding: 96px 28px; }
             .contact-btn   { min-width: unset; width: 100%; max-width: 360px; }
@@ -499,6 +521,7 @@
         <div class="nav-right">
             <div class="nav-links">
                 <a href="#about"   data-i18n="nav_about">À propos</a>
+                <a href="#agenda"  data-i18n="nav_agenda">Agenda</a>
                 <a href="#contact" data-i18n="nav_contact">Contact</a>
                 <a href="https://www.instagram.com/bbrison/" target="_blank" rel="noopener">Instagram</a>
             </div>
@@ -543,16 +566,29 @@
     <!-- GALLERY -->
     <section class="gallery">
         <div class="gallery-item reveal">
-            <img src="NJF24 - ©Zoé Casas (1).JPG" alt="">
+            <img src="njf24-zoe-casas-1.jpg" alt="">
         </div>
         <div class="gallery-item reveal delay-1">
-            <img src="NJF24 - ©Zoé Casas (2).jpg" alt="">
+            <img src="njf24-zoe-casas-2.jpg" alt="">
         </div>
         <div class="gallery-item reveal delay-1">
             <img src="DSCF0185.jpg" alt="">
         </div>
         <div class="gallery-item reveal delay-2">
             <img src="837C3E88-AD9E-4B89-97A4-9DA58ECD4C44.JPG" alt="">
+        </div>
+    </section>
+
+    <!-- AGENDA -->
+    <section class="agenda" id="agenda">
+        <p class="section-label reveal" data-i18n="agenda_label">Agenda</p>
+        <h2 class="agenda-heading reveal delay-1" data-i18n="agenda_heading">DATES</h2>
+        <div class="agenda-widget reveal delay-2">
+            <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
+            <a class="bit-widget-initializer"
+                data-artist-name="id_2389560"
+                data-app-id="3d1f24dbe67a003f32b91237eeb4e496"
+            ></a>
         </div>
     </section>
 
@@ -569,6 +605,7 @@
     <!-- FOOTER -->
     <footer>
         <p data-i18n="footer_copy">© 2026 Bastien Brison</p>
+        <p class="footer-credits" data-i18n="photo_credits">Photos : Philippe Vittau (1), Kate French (2), Zoé Casas (3, 4), Sophie Lanson (5), Lea Dasenka (6)</p>
         <a href="https://www.instagram.com/bbrison/" target="_blank" rel="noopener" class="footer-ig">
             <svg viewBox="0 0 24 24">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -584,6 +621,7 @@
         const STRINGS = {
             fr: {
                 nav_about:      'À propos',
+                nav_agenda:     'Agenda',
                 nav_contact:    'Contact',
                 hero_eyebrow:   'Pianiste Jazz · Paris',
                 about_label:    'À propos',
@@ -597,12 +635,15 @@
                 quote:          '« Bastien Brison est un touche-à-touche génial, un pianiste qui a su se rendre indispensable en même pas dix ans, une personnalité solaire et poétique qui n\'aime rien de plus que jouer, jouer, et encore jouer ! »',
                 contact_label:  'Contact',
                 contact_heading:'TRAVAILLONS<br>ENSEMBLE',
+                agenda_label:   'Agenda',
+                agenda_heading: 'DATES',
                 contact_phone:  '06 77 16 33 50',
                 footer_copy:    '© 2026 Bastien Brison',
-                photo_credits:  'Photos : Kate French · Zoé Casas',
+                photo_credits:  'Photos : Philippe Vittau (1), Kate French (2), Zoé Casas (3, 4), Sophie Lanson (5), Lea Dasenka (6)',
             },
             en: {
                 nav_about:      'About',
+                nav_agenda:     'Agenda',
                 nav_contact:    'Contact',
                 hero_eyebrow:   'Jazz Pianist · Paris',
                 about_label:    'About',
@@ -616,9 +657,11 @@
                 quote:          '"Bastien Brison is a brilliantly versatile musician, a pianist who has made himself indispensable in less than ten years — a radiant and poetic personality who loves nothing more than to play, play, and play again!"',
                 contact_label:  'Contact',
                 contact_heading:'GET IN<br>TOUCH',
+                agenda_label:   'Agenda',
+                agenda_heading: 'DATES',
                 contact_phone:  '+33 6 77 16 33 50',
                 footer_copy:    '© 2026 Bastien Brison',
-                photo_credits:  'Photos: Kate French · Zoé Casas',
+                photo_credits:  'Photos: Philippe Vittau (1), Kate French (2), Zoé Casas (3, 4), Sophie Lanson (5), Lea Dasenka (6)',
             }
         };
 
